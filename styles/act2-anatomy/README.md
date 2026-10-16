@@ -19,3 +19,20 @@ pip install numpy pillow scipy
 python styles/act2-anatomy/act2_anatomy.py 3
 ```
 示例：`examples/act2_anatomy_s3.png`
+
+---
+
+# FIG. II《穿心》
+
+一颗铆钉铁壳的心被一把剑斜着扎穿，背后张开天使羽翼，心口凹处开着一朵玫瑰，锈血从剑进出的两处伤口往下淌，几片羽毛在落。圣心图像 × 解剖图版。
+
+- 羽翼：三层羽毛由上往外扇形展开，外层长而暗、内层短而亮，圆头羽形 + 羽轴
+- 剑：沿剑轴坐标画刃、中脊、剑格、缠绳握把、圆形剑首；刃在心里那段不画（穿过去）
+- 遮挡：先画羽毛线稿，再用心和剑的轮廓把底下的线「挖黑」，最后画前景线
+- 伤口：自动求剑轴与心轮廓的交点，在两处各渗出一摊血和滴痕；心下那截刃沾血
+- 玫瑰：16 瓣黄金角叠放 + 花心螺旋，茎插进心口凹处，两片叶子
+
+```bash
+python styles/act2-anatomy/act2_pierced.py 11
+```
+示例：`examples/act2_pierced_s11.png`
