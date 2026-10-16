@@ -8,6 +8,8 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from scipy import ndimage
 import math, sys
 
+import os
+TEXT = os.environ.get("TEXT") == "1"   # 默认无字；TEXT=1 时加回图版文字与编号引线
 SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 11
 OUT = sys.argv[2] if len(sys.argv) > 2 else f"act2_pierced_s{SEED}.png"
 rng = np.random.default_rng(SEED)
@@ -183,21 +185,21 @@ flat = ImageFont.truetype(FONT_LAT, 22 * SS); flat_s = ImageFont.truetype(FONT_L
 fcjk = ImageFont.truetype(FONT_CJK, 19 * SS); fcjk_b = ImageFont.truetype(FONT_CJK, 26 * SS)
 closed([(50, 50), (W - 50, 50), (W - 50, H - 50), (50, H - 50)], 220, 2)
 closed([(62, 62), (W - 62, 62), (W - 62, H - 62), (62, H - 62)], 140, 1)
-dl.text(P((90, 80)), "TAB. II", font=flat, fill=255)
-dl.text(P((W - 330, 80)), "COR TRANSFIXUM", font=flat, fill=255)
+TEXT and dl.text(P((90, 80)), "TAB. II", font=flat, fill=255)
+TEXT and dl.text(P((W - 330, 80)), "COR TRANSFIXUM", font=flat, fill=255)
 labels = [(S(80, 0), (1090, 470), "1"), ((CX - 300, CY - 330), (110, 300), "2"),
           ((RX + 40, RY - 20), (760, 230), "3"), ((CX - 150, CY + 140), (110, 980), "4")]
-for (a, b, n) in labels:
+for (a, b, n) in (labels if TEXT else []):
     poly([a, b], 200, 1); dl.ellipse([P((a[0] - 3, a[1] - 3)), P((a[0] + 3, a[1] + 3))], fill=255)
-    dl.text(P((b[0] - 8, b[1] - 30)), n, font=flat, fill=255)
+    TEXT and dl.text(P((b[0] - 8, b[1] - 30)), n, font=flat, fill=255)
 legend = ["1. gladius — 剑", "2. alae — 羽翼", "3. rosa — 玫瑰", "4. vulnus — 伤口"]
 for i, s in enumerate(legend):
     lat, cjk = s.split(" — "); x = 110 + i * 255; y = 1310
-    dl.text(P((x, y)), lat, font=flat_s, fill=220)
+    TEXT and dl.text(P((x, y)), lat, font=flat_s, fill=220)
     w = dl.textlength(lat, font=flat_s) / SS
-    dl.text(P((x + w + 10, y - 3)), cjk, font=fcjk, fill=220)
-dl.text(P((W / 2 - 150, 1398)), "FIG. II", font=flat, fill=255)
-dl.text(P((W / 2 - 25, 1394)), "穿 心", font=fcjk_b, fill=255)
+    TEXT and dl.text(P((x + w + 10, y - 3)), cjk, font=fcjk, fill=220)
+TEXT and dl.text(P((W / 2 - 150, 1398)), "FIG. II", font=flat, fill=255)
+TEXT and dl.text(P((W / 2 - 25, 1394)), "穿 心", font=fcjk_b, fill=255)
 lines = np.asarray(line.resize((W, H), Image.LANCZOS), np.float32) / 255.0
 gray = np.maximum(gray, lines)
 
