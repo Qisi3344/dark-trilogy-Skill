@@ -26,6 +26,14 @@ pip install numpy pillow scipy
 python styles/act2-anatomy/act2_anatomy.py 3
 ```
 
+FIG. II《穿心》：被剑扎穿的心、天使羽翼、玫瑰
+
+![act2-fig2](examples/act2_pierced_s11.png)
+
+```bash
+python styles/act2-anatomy/act2_pierced.py 11
+```
+
 ## 第三幕《无声》
 
 ![act3](examples/act3_silence_s7.png)
