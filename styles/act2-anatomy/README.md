@@ -36,3 +36,10 @@ python styles/act2-anatomy/act2_anatomy.py 3
 python styles/act2-anatomy/act2_pierced.py 11
 ```
 示例：`examples/act2_pierced_s11.png`
+
+## 无字版（默认）
+两张心脏图默认不带文字：去掉 TAB/拉丁标题、编号引线和图注，只留图版双框。想加回来：
+```bash
+TEXT=1 python act2_anatomy.py 3
+TEXT=1 python act2_pierced.py 11
+```
