@@ -9,6 +9,8 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 from scipy import ndimage
 import math, sys, os
 
+import os
+TEXT = os.environ.get("TEXT") == "1"   # 默认无字；TEXT=1 时加回图版文字与编号引线
 SEED = int(sys.argv[1]) if len(sys.argv) > 1 else 3
 OUT = sys.argv[2] if len(sys.argv) > 2 else f"act2_anatomy_s{SEED}.png"
 rng = np.random.default_rng(SEED)
@@ -136,25 +138,25 @@ fcjk_b = ImageFont.truetype(FONT_CJK, 26 * SS)
 labels = [((CX - 200, CY - 30), (110, 560), "1"), ((CX - 70, CY + 70), (110, 860), "2"),
           ((CX + 140, CY - 120), (1090, 520), "3"), ((CX + 200, CY + 170), (1090, 900), "4"),
           ((CX + 70, CY - 250), (1090, 300), "5"), ((CX + 30, CY + 380), (760, 1150), "6")]
-for (a, b, n) in labels:
+for (a, b, n) in (labels if TEXT else []):
     poly([a, b], 200, 1)
     dl.ellipse([P((a[0] - 3, a[1] - 3)), P((a[0] + 3, a[1] + 3))], fill=255)
-    dl.text(P((b[0] - 8, b[1] - 30)), n, font=flat, fill=255)
+    TEXT and dl.text(P((b[0] - 8, b[1] - 30)), n, font=flat, fill=255)
 # 图版框、标题、图注
 poly([(50, 50), (W - 50, 50), (W - 50, H - 50), (50, H - 50), (50, 50)], 220, 2)
 poly([(62, 62), (W - 62, 62), (W - 62, H - 62), (62, H - 62), (62, 62)], 140, 1)
-dl.text(P((90, 80)), "TAB. II", font=flat, fill=255)
-dl.text(P((W - 290, 80)), "COR MACHINAE", font=flat, fill=255)
+TEXT and dl.text(P((90, 80)), "TAB. II", font=flat, fill=255)
+TEXT and dl.text(P((W - 290, 80)), "COR MACHINAE", font=flat, fill=255)
 legend = ["1. rota prima — 主齿轮", "2. rota secunda — 副齿轮", "3. cicatrix — 裂缝",
           "4. sanguis ferri — 锈血", "5. venae aeneae — 铜管", "6. silentium — 停摆处"]
 for i, s in enumerate(legend):
     lat, cjk = s.split(" — ")
     x = 110 + (i % 3) * 340; y = 1290 + (i // 3) * 46
-    dl.text(P((x, y)), lat, font=flat_s, fill=220)
+    TEXT and dl.text(P((x, y)), lat, font=flat_s, fill=220)
     w = dl.textlength(lat, font=flat_s) / SS
-    dl.text(P((x + w + 10, y - 3)), cjk, font=fcjk, fill=220)
-dl.text(P((W / 2 - 170, 1402)), "FIG. I", font=flat, fill=255)
-dl.text(P((W / 2 - 60, 1398)), "机 械 之 心", font=fcjk_b, fill=255)
+    TEXT and dl.text(P((x + w + 10, y - 3)), cjk, font=fcjk, fill=220)
+TEXT and dl.text(P((W / 2 - 170, 1402)), "FIG. I", font=flat, fill=255)
+TEXT and dl.text(P((W / 2 - 60, 1398)), "机 械 之 心", font=fcjk_b, fill=255)
 lines = f(line.resize((W, H), Image.LANCZOS))
 
 # 齿轮面上淡淡的刻线，剖口内部其余是黑的
