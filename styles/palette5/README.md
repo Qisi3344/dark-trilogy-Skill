@@ -14,3 +14,14 @@
 ```bash
 python styles/palette5/witch.py 13   # → witch_s13.png
 ```
+
+---
+
+# FIG. II《神龛》
+
+被供奉、被需要，却没人知道它里面已经碎了。一座金箔剥落的尖拱神龛，供着的不是神，是一台坏掉的机器；胸口一道裂缝，里面漏出唯一的紫光。
+
+```bash
+python styles/palette5/shrine.py 5   # → shrine_s5.png
+```
+示例：`examples/palette5_shrine_s5.png`
